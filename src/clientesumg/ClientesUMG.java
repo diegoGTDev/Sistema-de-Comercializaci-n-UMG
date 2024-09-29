@@ -4,6 +4,8 @@
  */
 package clientesumg;
 
+import loginClasses.loginFrame;
+
 /**
  *
  * @author Diego
