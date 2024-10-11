@@ -23,19 +23,16 @@ import org.json.JSONException;
  */
 public class ClientesService {
 
+    private String api_url = "http://localhost/sgc_api/cliente";
     private static ClientesService instance;
-    private String api_url = "http://localhost/sgc_api";
-
     public ClientesService() {
     }
-
     public static ClientesService getInstance() {
         if (instance == null) {
             instance = new ClientesService();
         }
         return instance;
     }
-
     public void crearCliente(String nit, String nombre, String direccion, String telefono, String correo) {
         try {
             JSONObject cliente = new JSONObject();
@@ -54,8 +51,6 @@ public class ClientesService {
             HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
             String jsonString = postResponse.body();
             JSONObject jsonObject = new JSONObject(jsonString);
-            String mensaje = jsonObject.getString("message");
-            JOptionPane.showMessageDialog(null, mensaje);
         } catch (IOException | InterruptedException | JSONException ex) {
             ex.printStackTrace();
         }
@@ -118,20 +113,23 @@ public class ClientesService {
         }
     }
 
-    public void eliminarCliente(String nit) {
+    public boolean eliminarCliente(String nit) {
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest deleteRequest = HttpRequest.newBuilder().uri(URI.create(api_url + "/eliminarCliente.php?nit=" + nit)).build();
+            System.out.println("El nit es:" + nit);
+            HttpRequest deleteRequest = HttpRequest.newBuilder().uri(URI.create(api_url + "/eliminarCliente.php?nit=" + nit)).DELETE().build();
             HttpResponse<String> getResponse = client.send(deleteRequest, HttpResponse.BodyHandlers.ofString());
             String jsonString = getResponse.body();
             if (jsonString.length() > 0) {
-                JOptionPane.showMessageDialog(null, "Eliminado correctamente");
+                return true;
             } else {
-                JOptionPane.showMessageDialog(null, "Algo ha ocurido mal");
+                return false;
             }
         } catch (IOException | InterruptedException | JSONException ex) {
             ex.printStackTrace();
+            System.out.println(ex);
         }
+        return false;
     }
 
     public void actualizarCliente(String nitConsulta, String nombre, String direccion, String telefono, String correo) {
@@ -154,10 +152,9 @@ public class ClientesService {
             HttpResponse<String> postResponse = client.send(postRequest, HttpResponse.BodyHandlers.ofString());
             String jsonString = postResponse.body();
             JSONObject jsonObject = new JSONObject(jsonString);
-            String mensaje = jsonObject.getString("message");
-            JOptionPane.showMessageDialog(null, mensaje);
         } catch (IOException | InterruptedException | JSONException ex) {
             ex.printStackTrace();
+            
 
         }
 

@@ -51,7 +51,6 @@ public class LoginView extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        btnCrearCuenta = new javax.swing.JButton();
         Header = new javax.swing.JPanel();
         btnCerrarVentana = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -121,18 +120,6 @@ public class LoginView extends javax.swing.JFrame {
 
         jSeparator2.setPreferredSize(new java.awt.Dimension(200, 10));
 
-        btnCrearCuenta.setBackground(new java.awt.Color(224, 75, 90));
-        btnCrearCuenta.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearCuenta.setText("Crear cuenta");
-        btnCrearCuenta.setBorder(null);
-        btnCrearCuenta.setBorderPainted(false);
-        btnCrearCuenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCrearCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearCuentaActionPerformed(evt);
-            }
-        });
-
         Header.setBackground(new java.awt.Color(255, 255, 255));
         Header.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -190,10 +177,6 @@ public class LoginView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
@@ -201,7 +184,10 @@ public class LoginView extends javax.swing.JFrame {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                         .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,11 +211,9 @@ public class LoginView extends javax.swing.JFrame {
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGap(75, 75, 75)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -4, 290, 500));
@@ -278,7 +262,7 @@ public class LoginView extends javax.swing.JFrame {
         UsuarioService _usuarioService = new UsuarioService();
 
         if(_usuarioService.iniciarSesion(usernameInput, passwordInput)){
-            Dashboard _dashboard = new Dashboard();
+            Dashboard _dashboard = new Dashboard(usernameInput);
         this.setVisible(false);
             _dashboard.setLocationRelativeTo(null);
             _dashboard.setVisible(true);
@@ -291,10 +275,6 @@ public class LoginView extends javax.swing.JFrame {
         // TODO add your handling code here:
         iniciarSesion();
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void none(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_none
         // TODO add your handling code here:
@@ -411,7 +391,6 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JPanel Header;
     private javax.swing.JPanel background;
     private javax.swing.JLabel btnCerrarVentana;
-    private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

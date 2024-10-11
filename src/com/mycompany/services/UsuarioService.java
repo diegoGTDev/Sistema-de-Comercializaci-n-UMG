@@ -1,5 +1,6 @@
 package com.mycompany.services;
 
+import com.mycompany.application.AppInformation;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -20,7 +21,7 @@ import org.json.JSONException;
  * @author PC
  */
 public class UsuarioService {
-    private String api_url = "http://localhost/sgc_api";
+    private String api_url = "http://localhost/sgc_api/usuario";
     
     public UsuarioService(){
         
@@ -40,16 +41,17 @@ public class UsuarioService {
             }
             rd.close();
         }catch(Exception e){
+            
             e.printStackTrace();
         }
-       
         String result = resultado.toString();
-        System.out.println("Resultado es: " + result);
-        if(result.contains("1")){
-            return true;
-        }
-        else{
+        if (result.contains("error")){
             return false;
         }
+        JSONObject response = new JSONObject(result);
+        AppInformation.setCurrentUserId(response.getInt("usuario_id"));
+        System.out.println("ID de usuario: " + response.getInt("usuario_id"));
+        System.out.println("Resultado es: " + result);
+        return true;
     }
 }

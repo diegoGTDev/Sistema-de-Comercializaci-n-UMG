@@ -7,11 +7,16 @@ package com.mycompany.views;
 import com.mycompany.services.ClientesService;
 import javax.management.modelmbean.ModelMBean;
 import com.mycompany.models.Cliente;
+import com.mycompany.models.ConsultaActionModes;
+import com.mycompany.models.ConsultaDialogModes;
 import com.mycompany.models.HeaderColor;
+import com.mycompany.views.modals.ClienteDialog;
+import com.mycompany.views.modals.ConsultarDialog;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,7 +30,7 @@ public class GestionClientesView extends javax.swing.JPanel {
      * Creates new form Form
      */
     ClientesService _clientesService = ClientesService.getInstance();
-    int opc = 0;
+ 
 
     public GestionClientesView() {
         initComponents();
@@ -42,7 +47,9 @@ public class GestionClientesView extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void CargarDatos() {
         try {
+            
             DefaultTableModel model = (DefaultTableModel) this.tableClientes.getModel();
+            model.setRowCount(0);
             ArrayList<Cliente> clientes = _clientesService.consultarClientes();
             clientes.forEach((p) -> model.addRow(new Object[]{p.getNIT(), p.getNombre(), p.getDireccion(), p.getTelefono(), p.getCorreo()}));
         }catch(Exception e){
@@ -57,43 +64,56 @@ public class GestionClientesView extends javax.swing.JPanel {
         btnConsultar = new javax.swing.JButton();
         btnEliminar1 = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
-        btnProcesar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
+        lblTitle = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMinimumSize(new java.awt.Dimension(760, 610));
+        setMinimumSize(new java.awt.Dimension(750, 610));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(760, 610));
+        setPreferredSize(new java.awt.Dimension(750, 610));
         setRequestFocusEnabled(false);
 
+        btnCrear.setBackground(new java.awt.Color(13, 110, 253));
+        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
         btnCrear.setText("Crear");
+        btnCrear.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnCrear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCrear.setPreferredSize(new java.awt.Dimension(30, 45));
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearActionPerformed(evt);
             }
         });
 
+        btnConsultar.setBackground(new java.awt.Color(108, 117, 125));
+        btnConsultar.setForeground(new java.awt.Color(255, 255, 255));
         btnConsultar.setText("Consultar");
+        btnConsultar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsultarActionPerformed(evt);
             }
         });
 
+        btnEliminar1.setBackground(new java.awt.Color(220, 53, 69));
+        btnEliminar1.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar1.setText("Eliminar");
-
-        btnActualizar.setText("Actualizar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnEliminar1.setBorderPainted(false);
+        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
+                btnEliminar1ActionPerformed(evt);
             }
         });
 
-        btnProcesar.setText("Procesar");
-        btnProcesar.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizar.setBackground(new java.awt.Color(13, 110, 253));
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setText("Actualizar");
+        btnActualizar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProcesarActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
 
@@ -124,46 +144,50 @@ public class GestionClientesView extends javax.swing.JPanel {
             }
         });
         tableClientes.setRowHeight(25);
-        tableClientes.setSelectionBackground(new java.awt.Color(232, 57, 95));
+        tableClientes.setSelectionBackground(new java.awt.Color(204, 204, 255));
         tableClientes.setShowGrid(false);
         tableClientes.setShowHorizontalLines(true);
         tableClientes.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableClientes);
+
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(0, 0, 0));
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText("Gestionar Clientes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(btnCrear)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnConsultar)
-                        .addGap(46, 46, 46)
-                        .addComponent(btnEliminar1)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnActualizar)
-                        .addGap(77, 77, 77)
-                        .addComponent(btnProcesar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(51, 51, 51)
+                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69)
+                .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(33, 33, 33)
+                .addComponent(lblTitle)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrear)
-                    .addComponent(btnConsultar)
-                    .addComponent(btnEliminar1)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnProcesar))
+                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -189,103 +213,39 @@ public class GestionClientesView extends javax.swing.JPanel {
 
     }
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        this.opc = 1;
-        /*
-        String nombre = txtNombre.getText();
-        String nit = txtNIT.getText();
-        String direccion = txtDireccion.getText();
-        String correo = txtCorreo.getText();
-        String telefono = txtTel.getText();
-        if (nombre.isEmpty() || nit.isEmpty() || direccion.isEmpty() || correo.isEmpty() || telefono.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No puede dejar los campos en blanco");
-            return;
-
-        }
-        this.btnProcesar.setEnabled(true);
-         */
+        ClienteDialog _view = new ClienteDialog(null, true, null, ConsultaActionModes.CREAR);
+        _view.setLocationRelativeTo(null);
+        _view.setAlwaysOnTop(true);
+        _view.setVisible(true);
+        this.CargarDatos();
+        
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
-        String nitIngresado = JOptionPane.showInputDialog(null, "Ingrese el nit: ");
-        System.out.println("NIt: " + nitIngresado);
-        String[] result;
-        result = _clientesService.consultarCliente(nitIngresado);
-        /*
-        if (result == null) {
-            JOptionPane.showMessageDialog(null, "No se encontró el cliente");
-            return;
-        } else {
-            this.establecerNoEditableTodo();
-            txtCorreo.setText(result[4]);
-            txtNombre.setText(result[1]);
-            txtTel.setText(result[3]);
-            txtDireccion.setText(result[2]);
-            txtNIT.setText(result[0]);
-        }*/
+        ConsultarDialog _dialog = new ConsultarDialog(null, true, _clientesService,ConsultaDialogModes.Cliente, ConsultaActionModes.CONSULTAR);
+        _dialog.setLocationRelativeTo(null);
+        _dialog.setAlwaysOnTop(true);
+        _dialog.setVisible(true);
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
-        /*
-        String nitConsulta = "";
-        nitConsulta = JOptionPane.showInputDialog("Ingrese el NIT a actualizar");
-        String[] result;
-        result = _clientesService.consultarCliente(nitConsulta);
-        if (result == null) {
-            JOptionPane.showMessageDialog(null, "No se encontró el cliente");
-            return;
-        } else {
-            String nombre = result[1];
-            String nit = result[0];
-            String direccion = result[2];
-            String correo = result[4];
-            String telefono = result[3];
-            txtCorreo.setText(correo);
-            txtNombre.setText(nombre);
-            txtTel.setText(telefono);
-            txtDireccion.setText(direccion);
-            txtNIT.setText(nit);
-            txtNIT.setText(nitConsulta);
-            btnProcesar.setEnabled(true);
-            txtNIT.setEditable(false);
-            txtNombre.setEditable(true);
-            txtDireccion.setEditable(true);
-            txtCorreo.setEditable(true);
-            txtTel.setEditable(true);
-            btnProcesar.setEnabled(true);
-            this.opc = 2;
-        }
-         */
+         ConsultarDialog _dialog = new ConsultarDialog(null, true, _clientesService,ConsultaDialogModes.Cliente, ConsultaActionModes.ACTUALIZAR);
+        _dialog.setLocationRelativeTo(null);
+        _dialog.setAlwaysOnTop(true);
+        _dialog.setVisible(true);
+        this.CargarDatos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    private void btnProcesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarActionPerformed
+    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
         // TODO add your handling code here:
-        /*
-        String nombre = txtNombre.getText();
-        String nit = txtNIT.getText();
-        String direccion = txtDireccion.getText();
-        String correo = txtCorreo.getText();
-        String telefono = txtTel.getText();
-        switch (opc) {
-            case 1:
-                _clientesService.crearCliente(nit, nombre, direccion, telefono, correo);
-                this.limpiarFields();
-                break;
-            case 2:
-                nombre = txtNombre.getText();
-                nit = txtNIT.getText();
-                direccion = txtDireccion.getText();
-                correo = txtCorreo.getText();
-                telefono = txtTel.getText();
-                _clientesService.actualizarCliente(nit, nombre, direccion, telefono, correo);
-                this.limpiarFields();
-                break;
-
-        }
-         */
-        btnProcesar.setEnabled(false);
-    }//GEN-LAST:event_btnProcesarActionPerformed
+        ConsultarDialog _dialog = new ConsultarDialog(null, true, _clientesService,ConsultaDialogModes.Cliente, ConsultaActionModes.ELIMINAR);
+        _dialog.setLocationRelativeTo(null);
+        _dialog.setAlwaysOnTop(true);
+        _dialog.setVisible(true);
+        this.CargarDatos();
+        
+    }//GEN-LAST:event_btnEliminar1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -293,8 +253,8 @@ public class GestionClientesView extends javax.swing.JPanel {
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEliminar1;
-    private javax.swing.JButton btnProcesar;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tableClientes;
     // End of variables declaration//GEN-END:variables
 }

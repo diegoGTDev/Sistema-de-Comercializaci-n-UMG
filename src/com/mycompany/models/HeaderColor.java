@@ -4,9 +4,11 @@
  */
 package com.mycompany.models;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -21,8 +23,9 @@ public class HeaderColor extends DefaultTableCellRenderer {
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
         super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-
-        setBackground(new java.awt.Color(32, 136, 203));
+        setHorizontalTextPosition(SwingConstants.RIGHT);
+        setBackground(new java.awt.Color(63,81,181));
+        setForeground(Color.WHITE);
         setFont(new Font("Segoe UI", Font.BOLD, 12));
  
 //you can change the color that u want 
